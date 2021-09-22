@@ -89,6 +89,12 @@ typedef unsigned int uint;
 #define BASE_PATH            ""
 #define DEFAULT_SCREEN_XSIZE 424
 #define DEFAULT_FULLSCREEN   false
+#elif  RETRO_PLATFORM == RETRO_MORPHOS
+#define BASE_PATH            ""
+#define RETRO_USING_MOUSE
+#define DEFAULT_SCREEN_XSIZE 480
+#define DEFAULT_FULLSCREEN   true
+#define RETRO_DEFAULTSCALINGMODE 0
 #else
 #define BASE_PATH            ""
 #define RETRO_USING_MOUSE
@@ -117,7 +123,13 @@ typedef unsigned int uint;
 #define RETRO_GAMEPLATFORM (RETRO_STANDARD)
 #endif
 
+#if RETRO_PLATFORM == RETRO_MORPHOS
+// disable OpenGL
+// framebuffer doesnt support
 #define RETRO_USING_OPENGL (0)
+#else
+#define RETRO_USING_OPENGL (1)
+#endif
 
 #if RETRO_USING_OPENGL
 #if RETRO_PLATFORM == RETRO_ANDROID
@@ -145,8 +157,7 @@ typedef unsigned int uint;
 #define GL_FRAMEBUFFER_BINDING GL_FRAMEBUFFER_BINDING_OES
 #elif RETRO_PLATFORM == RETRO_MORPHOS
 
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <SDL_opengl.h>
 
 #elif RETRO_PLATFORM == RETRO_OSX
 #define GL_GLEXT_PROTOTYPES
