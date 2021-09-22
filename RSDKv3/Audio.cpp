@@ -364,7 +364,7 @@ void ProcessAudioPlayback(void *userdata, Uint8 *stream, int len)
                 ProcessAudioMixing(mix_buffer, buffer, get / sizeof(Sint16), bgmVolume, 0);
         }
         else {
-            SDL_AudioStreamClear(ogv_stream); // Prevent leftover audio from playing at the start of the next video
+            if(ogv_stream) SDL_AudioStreamClear(ogv_stream); // Prevent leftover audio from playing at the start of the next video
         }
 #endif
 
