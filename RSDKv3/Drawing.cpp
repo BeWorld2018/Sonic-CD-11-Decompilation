@@ -85,6 +85,7 @@ int InitRenderDevice()
     SDL_SetHint(SDL_HINT_WINRT_HANDLE_BACK_BUTTON, "1");
 
     byte flags = 0;
+	flags |= SDL_WINDOW_RESIZABLE;
 #if RETRO_USING_OPENGL
     flags |= SDL_WINDOW_OPENGL;
     
