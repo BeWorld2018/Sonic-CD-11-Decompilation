@@ -40,6 +40,7 @@ typedef unsigned int uint;
 // Custom Platforms start here
 #define RETRO_VITA (7)
 #define RETRO_UWP  (8)
+#define RETRO_MORPHOS  (9)
 
 // Platform types (Game manages platform-specific code such as HUD position using this rather than the above)
 #define RETRO_STANDARD (0)
@@ -74,6 +75,8 @@ typedef unsigned int uint;
 #define RETRO_PLATFORM   (RETRO_ANDROID)
 #elif defined __vita__
 #define RETRO_PLATFORM (RETRO_VITA)
+#elif defined __MORPHOS__
+#define RETRO_PLATFORM (RETRO_MORPHOS)
 #else
 #define RETRO_PLATFORM (RETRO_WIN) // Default
 #endif
@@ -98,7 +101,7 @@ typedef unsigned int uint;
 #endif
 
 #if RETRO_PLATFORM == RETRO_WIN || RETRO_PLATFORM == RETRO_OSX || RETRO_PLATFORM == RETRO_iOS || RETRO_PLATFORM == RETRO_VITA                        \
-    || RETRO_PLATFORM == RETRO_UWP || RETRO_PLATFORM == RETRO_ANDROID
+    || RETRO_PLATFORM == RETRO_UWP || RETRO_PLATFORM == RETRO_ANDROID || RETRO_PLATFORM == RETRO_MORPHOS
 #define RETRO_USING_SDL1 (0)
 #define RETRO_USING_SDL2 (1)
 #else // Since its an else & not an elif these platforms probably aren't supported yet
@@ -114,7 +117,7 @@ typedef unsigned int uint;
 #define RETRO_GAMEPLATFORM (RETRO_STANDARD)
 #endif
 
-#define RETRO_USING_OPENGL (1)
+#define RETRO_USING_OPENGL (0)
 
 #if RETRO_USING_OPENGL
 #if RETRO_PLATFORM == RETRO_ANDROID
@@ -140,6 +143,11 @@ typedef unsigned int uint;
 #define GL_FRAMEBUFFER         GL_FRAMEBUFFER_OES
 #define GL_COLOR_ATTACHMENT0   GL_COLOR_ATTACHMENT0_OES
 #define GL_FRAMEBUFFER_BINDING GL_FRAMEBUFFER_BINDING_OES
+#elif RETRO_PLATFORM == RETRO_MORPHOS
+
+#include <GL/gl.h>
+#include <GL/glu.h>
+
 #elif RETRO_PLATFORM == RETRO_OSX
 #define GL_GLEXT_PROTOTYPES
 #define GL_SILENCE_DEPRECATION
@@ -178,6 +186,8 @@ typedef unsigned int uint;
 
 // use *this* macro to determine what platform the game thinks its running on (since only the first 7 platforms are supported natively by scripts)
 #if RETRO_PLATFORM == RETRO_VITA
+#define RETRO_GAMEPLATFORMID (RETRO_WIN)
+#elif RETRO_PLATFORM == RETRO_MORPHOS
 #define RETRO_GAMEPLATFORMID (RETRO_WIN)
 #elif RETRO_PLATFORM == RETRO_UWP
 #define RETRO_GAMEPLATFORMID (UAP_GetRetroGamePlatformId())
@@ -247,7 +257,7 @@ enum RetroBytecodeFormat {
 #define SCREEN_YSIZE   (240)
 #define SCREEN_CENTERY (SCREEN_YSIZE / 2)
 
-#if RETRO_PLATFORM == RETRO_WIN || RETRO_PLATFORM == RETRO_UWP || RETRO_PLATFORM == RETRO_ANDROID
+#if RETRO_PLATFORM == RETRO_WIN || RETRO_PLATFORM == RETRO_UWP || RETRO_PLATFORM == RETRO_ANDROID || RETRO_PLATFORM == RETRO_MORPHOS
 #if RETRO_USING_SDL2
 #include <SDL.h>
 #elif RETRO_USING_SDL1

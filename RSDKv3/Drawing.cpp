@@ -238,7 +238,7 @@ int InitRenderDevice()
     // Init GL
     Engine.glContext = SDL_GL_CreateContext(Engine.window);
 
-#if RETRO_PLATFORM != RETRO_ANDROID && RETRO_PLATFORM != RETRO_OSX
+#if RETRO_PLATFORM != RETRO_ANDROID && RETRO_PLATFORM != RETRO_OSX && RETRO_PLATFORM != RETRO_MORPHOS
     // glew Setup
     GLenum err = glewInit();
     if (err != GLEW_OK) {
@@ -821,6 +821,7 @@ void RenderFromTexture()
 
 void RenderFromRetroBuffer()
 {
+#if RETRO_USING_OPENGL
     if (drawStageGFXHQ) {
         glBindTexture(GL_TEXTURE_2D, retroBuffer2x);
 
@@ -866,7 +867,6 @@ void RenderFromRetroBuffer()
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, SCREEN_XSIZE * 2, SCREEN_YSIZE * 2, GL_RGBA, GL_UNSIGNED_BYTE, Engine.texBuffer2x);
     }
 
-#if RETRO_USING_OPENGL
     glLoadIdentity();
     glBindTexture(GL_TEXTURE_2D, drawStageGFXHQ ? retroBuffer2x : retroBuffer);
     if (viewAngle >= 180.0) {
