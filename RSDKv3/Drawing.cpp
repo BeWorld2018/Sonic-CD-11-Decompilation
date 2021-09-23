@@ -79,13 +79,25 @@ int InitRenderDevice()
 #if RETRO_USING_SDL2
     SDL_Init(SDL_INIT_EVERYTHING);
 
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
     SDL_SetHint(SDL_HINT_RENDER_VSYNC, Engine.vsync ? "1" : "0");
     SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeLeft LandscapeRight");
     SDL_SetHint(SDL_HINT_WINRT_HANDLE_BACK_BUTTON, "1");
 
     byte flags = 0;
+#if RETRO_PLATFORM == RETRO_MORPHOS
+	
 	flags |= SDL_WINDOW_RESIZABLE;
+	
+	 if (Engine.startFullScreen) {
+		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+        Engine.isFullScreen = true;
+    }
+    if (Engine.borderless) {
+        flags |= SDL_WINDOW_BORDERLESS;
+    }
+#endif
+	
 #if RETRO_USING_OPENGL
     flags |= SDL_WINDOW_OPENGL;
     
@@ -123,7 +135,7 @@ int InitRenderDevice()
     Engine.window = SDL_CreateWindow(gameTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_XSIZE * Engine.windowScale,
                                      SCREEN_YSIZE * Engine.windowScale, SDL_WINDOW_ALLOW_HIGHDPI | flags);
 #if !RETRO_USING_OPENGL
-    Engine.renderer = SDL_CreateRenderer(Engine.window, -1, SDL_RENDERER_ACCELERATED);
+    Engine.renderer = SDL_CreateRenderer(Engine.window, -1, 0);
 #endif
 
     if (!Engine.window) {
@@ -160,7 +172,8 @@ int InitRenderDevice()
     }
 #endif
 
-    if (Engine.startFullScreen) {
+#if RETRO_PLATFORM != RETRO_MORPHOS
+	 if (Engine.startFullScreen) {
         SDL_RestoreWindow(Engine.window);
         SDL_SetWindowFullscreen(Engine.window, SDL_WINDOW_FULLSCREEN_DESKTOP);
         Engine.isFullScreen = true;
@@ -170,6 +183,7 @@ int InitRenderDevice()
         SDL_RestoreWindow(Engine.window);
         SDL_SetWindowBordered(Engine.window, SDL_FALSE);
     }
+#endif
 
     SDL_SetWindowPosition(Engine.window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 

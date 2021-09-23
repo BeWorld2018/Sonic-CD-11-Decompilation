@@ -93,8 +93,8 @@ typedef unsigned int uint;
 #define BASE_PATH            ""
 #define RETRO_USING_MOUSE
 #define DEFAULT_SCREEN_XSIZE 480
-#define DEFAULT_FULLSCREEN   true
-#define RETRO_DEFAULTSCALINGMODE 0
+#define DEFAULT_FULLSCREEN   false
+#define RETRO_DEFAULTSCALINGMODE 2
 #else
 #define BASE_PATH            ""
 #define RETRO_USING_MOUSE

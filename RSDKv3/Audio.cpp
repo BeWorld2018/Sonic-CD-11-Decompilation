@@ -40,7 +40,7 @@ SDL_AudioStream *ogv_stream;
 
 #define AUDIO_FREQUENCY (44100)
 #define AUDIO_FORMAT    (AUDIO_S16SYS) /**< Signed 16-bit samples */
-#define AUDIO_SAMPLES   (0x800)
+#define AUDIO_SAMPLES   (0x400)
 #define AUDIO_CHANNELS  (2)
 
 #define ADJUST_VOLUME(s, v) (s = (s * v) / MAX_VOLUME)

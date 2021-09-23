@@ -1,7 +1,7 @@
 #include "RetroEngine.hpp"
 
 #if RETRO_PLATFORM == RETRO_MORPHOS
-static const char *version __attribute__((used)) = "$VER: RSDK v3 Sonic CD 2011 port by BeWorld (21.9.2021)";
+static const char *version __attribute__((used)) = "$VER: RSDK v3 Sonic CD 2011 1.3.0 port by BeWorld (22.9.2021)";
 unsigned long __stack = 1000000;
 #endif
 
